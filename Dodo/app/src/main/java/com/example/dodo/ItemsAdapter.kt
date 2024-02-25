@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemsAdapter(var items: List<Item>, var context: Context):RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
+class ItemsAdapter(var items:List<Item>, var context: Context):RecyclerView.Adapter<ItemsAdapter.MyViewHolder>() {
     class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         val image: ImageView = view.findViewById(R.id.item_list_image)
         val title: TextView = view.findViewById(R.id.item_list_title)
@@ -20,10 +20,13 @@ class ItemsAdapter(var items: List<Item>, var context: Context):RecyclerView.Ada
 
 
     }
-    /*fun setFilteredList(items: List<Item>){
-        this.items = items
+    fun updateItems(newItems: List<Item>) {
+        items = newItems
         notifyDataSetChanged()
-    }*/
+    }
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_in_list, parent, false)
         return MyViewHolder(view)
@@ -40,24 +43,24 @@ class ItemsAdapter(var items: List<Item>, var context: Context):RecyclerView.Ada
 
 
         val imageId = context.resources.getIdentifier(
-            items[position].image,
+            items[position].image  ,
             "drawable",
             context.packageName
         )
 
         holder.image.setImageResource(imageId)
 
-        holder.btn.setOnClickListener{
+        holder.btn.setOnClickListener {
             val intent = Intent(context, ItemActivity::class.java)
 
             intent.putExtra("itemTitle", items[position].title)
             intent.putExtra("itemText", items[position].desc)
             intent.putExtra("itemPrice", items[position].price)
-            intent.putExtra("itemImage", imageId)
+            intent.putExtra("itemImage", items[position].image)
 
 
             context.startActivity(intent)
         }
-    }
 
-}
+
+    }}
